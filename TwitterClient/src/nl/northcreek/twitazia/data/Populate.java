@@ -77,7 +77,6 @@ public class Populate extends AsyncTask<Void, Void, String> {
 			}
 		}
 		
-		// Log.d("JSON TO STRING", sb.toString());
 		return sb.toString();
 
 	}
@@ -99,21 +98,15 @@ public class Populate extends AsyncTask<Void, Void, String> {
 
 			for (int i = 0; i < tempOBJ.length(); i++) {
 				JSONObject tweetOBJ = tempOBJ.getJSONObject(i);
-				//Log.d("JSONOBJ", "" + tweetOBJ.toString());
 				JSONObject userOBJ = tweetOBJ.getJSONObject("user");
-				//Log.d("JSONOBJ", "" + userOBJ.toString());
 				Tweet tweet = new Tweet();
 				tweet.setUserProfileName(userOBJ.getString("name"));
 				tweet.setUserName(userOBJ.getString("screen_name"));
 				tweet.setText(tweetOBJ.getString("text"));
-//				String src = tweetOBJ.getString("profile_image_url");
-//				tweet.setUserProfilePicture(getBitmapFromURL(src));
-//				getTimeDifference(tweetOBJ.getString("created_at"), time);
-//				tweet.setTimeAgo(time);
+
 
 				System.out.println(tweetOBJ.getString("text"));
-			//	Log.d("JSON", "json response:" + json);
-				// add the tweet to tweets list
+			
 				tweets.add(tweet);
 
 			}
@@ -126,10 +119,7 @@ public class Populate extends AsyncTask<Void, Void, String> {
 			if (listener != null)
 				listener.onFetchFailure(msg);
 			return;}
-//		} catch (java.text.ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
 
 	}
 
@@ -177,25 +167,11 @@ public class Populate extends AsyncTask<Void, Void, String> {
 			}
 
 		} catch (ParseException e) {
-			// System.out.println("Err: " + e);
 			e.printStackTrace();
 		}
 
 	}
 
-	public static Bitmap getBitmapFromURL(String src) {
-		try {
-			URL url = new URL(src);
-			HttpURLConnection connection = (HttpURLConnection) url
-					.openConnection();
-			connection.setDoInput(true);
-			connection.connect();
-			InputStream input = connection.getInputStream();
-			userProfilePicture = BitmapFactory.decodeStream(input);
-			return userProfilePicture;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+
 	}
 }
