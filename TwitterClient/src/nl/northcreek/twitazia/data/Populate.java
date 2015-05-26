@@ -33,7 +33,6 @@ public class Populate extends AsyncTask<Void, Void, String> {
 	private final FetchDataListener listener;
 	private String msg;
 	private Context context;
-	private static Bitmap userProfilePicture;
 	private Model model;
 	private TwitterClient app;
 
@@ -57,7 +56,7 @@ public class Populate extends AsyncTask<Void, Void, String> {
 			br = new BufferedReader(new InputStreamReader(is));
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
-				
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -76,7 +75,7 @@ public class Populate extends AsyncTask<Void, Void, String> {
 				}
 			}
 		}
-		
+
 		return sb.toString();
 
 	}
@@ -89,89 +88,21 @@ public class Populate extends AsyncTask<Void, Void, String> {
 			return;
 		}
 		try {
-			// convert json string to json object
 			JSONObject jsonObject = new JSONObject(json);
 			JSONArray tempOBJ = jsonObject.getJSONArray("statuses");
-			// create Tweets list
-			String time = "";
-			List<Tweet> tweets = model.getTweets();
-
 			for (int i = 0; i < tempOBJ.length(); i++) {
 				JSONObject tweetOBJ = tempOBJ.getJSONObject(i);
-				JSONObject userOBJ = tweetOBJ.getJSONObject("user");
-				Tweet tweet = new Tweet();
-				tweet.setUserProfileName(userOBJ.getString("name"));
-				tweet.setUserName(userOBJ.getString("screen_name"));
-				tweet.setText(tweetOBJ.getString("text"));
-
-
-				System.out.println(tweetOBJ.getString("text"));
-			
-				tweets.add(tweet);
-
+				Tweet tweet = new Tweet(tweetOBJ);
+				model.addTweet(tweet);
 			}
 
-			// notify the activity that fetch data has been complete
-			if (listener != null)
-				listener.onFetchComplete(tweets);
 		} catch (JSONException e) {
 			msg = "Invalid response";
 			if (listener != null)
 				listener.onFetchFailure(msg);
-			return;}
-
-
-	}
-
-	private void getTimeDifference(String pDate, String time)
-			throws java.text.ParseException {
-		int diffInDays = 0;
-		SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss");
-		format.setTimeZone(TimeZone.getTimeZone("GMT + 2.00"));
-		Calendar c = Calendar.getInstance();
-		String formattedDate = format.format(c.getTime());
-
-		Date d1 = null;
-		Date d2 = null;
-		try {
-
-			d1 = format.parse(formattedDate);
-			d2 = format.parse(pDate);
-			long diff = d1.getTime() - d2.getTime();
-
-			diffInDays = (int) (diff / (1000 * 60 * 60 * 24));
-			if (diffInDays > 0) {
-				if (diffInDays == 1) {
-					time = diffInDays + " day ago";
-				} else {
-					time = diffInDays + " days ago";
-				}
-			} else {
-				int diffHours = (int) (diff / (60 * 60 * 1000));
-				if (diffHours > 0) {
-					if (diffHours == 1) {
-						time = (diffHours + " hr ago");
-					} else {
-						time = (diffHours + " hrs ago");
-					}
-				} else {
-
-					int diffMinutes = (int) ((diff / (60 * 1000) % 60));
-					if (diffMinutes == 1) {
-						time = (diffMinutes + " min ago");
-					} else {
-						time = (diffMinutes + " mins ago");
-					}
-
-				}
-			}
-
-		} catch (ParseException e) {
-			e.printStackTrace();
+			return;
 		}
 
 	}
 
-
-	}
 }

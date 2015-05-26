@@ -7,7 +7,6 @@ import nl.northcreek.twitazia.model.Tweet;
 
 public class Model extends Observable {
 	
-	// Test
 	
 	private ArrayList<Tweet> tweets;
 	

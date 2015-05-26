@@ -4,50 +4,65 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.graphics.Bitmap;
 
 public class Tweet extends Observable {
-	private ArrayList<Contributor> contributor;
-	private Coordinate coordinates;
+	
 	private String created_at;
-	private Array[] hastags;
-	private Array[] urls;
-	private Array[] userMentions;
-	private int favoriteCount;
-	private boolean favorited;
-	private long id;
+	private int id;
 	private String id_str;
-	private String in_reply_to_screen_name;
-	private long in_reply_to_status_id;
-	private String in_reply_to_status_id_str;
-	private String lang;
-	private Place place;
-	private boolean possibly_sensitive;
-	private int retweet_count;
-	private boolean retweeted;
-	private String source;
-
-	private boolean truncated;
-	private User user;
-	private boolean withheld_copyright;
-	private ArrayList<String> withheld_in_countries;
-
 	private String text;
-	private String userName;
-	private String userProfileName;
-	private Bitmap userProfilePicture;
-	private String timeAgo;
+	User user;
+	Entity entity;
+	private int favorite_count;
+	private int retweet_count;
 
-	public Tweet(String userName, String userProfileName, String text,
-			Bitmap userProfilePicture, String timeAgo) {
-		this.setText(text);
-		this.setUserProfileName(userProfileName);
-		this.setUserName(userName);
-		this.setUserProfilePicture(userProfilePicture);
-		this.setTimeAgo(timeAgo);
+	public Tweet(JSONObject TweetObject){
+		JSONObject userObject;
+		JSONObject entityObject;
+		try {
+			userObject = TweetObject.getJSONObject("user");
+			user = new User(userObject);
+			entityObject = TweetObject.getJSONObject("entity");
+			entity = new Entity(entityObject);
+			created_at = TweetObject.getString("created_at");
+			id = TweetObject.getInt("id");
+			id_str = TweetObject.getString("id_str");
+			text = TweetObject.getString("text");
+			favorite_count = TweetObject.getInt("favorite_count");
+			retweet_count = TweetObject.getInt("retweet_count");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
-	public Tweet() {
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getId_str() {
+		return id_str;
+	}
+
+	public void setId_str(String id_str) {
+		this.id_str = id_str;
 	}
 
 	public String getText() {
@@ -58,36 +73,35 @@ public class Tweet extends Observable {
 		this.text = text;
 	}
 
-	public String getUserName() {
-		return userName;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getUserProfileName() {
-		return userProfileName;
+	public Entity getEntity() {
+		return entity;
 	}
 
-	public void setUserProfileName(String userProfileName) {
-		this.userProfileName = userProfileName;
+	public void setEntity(Entity entity) {
+		this.entity = entity;
 	}
 
-	public Bitmap getUserProfilePicture() {
-		return userProfilePicture;
+	public int getFavorite_count() {
+		return favorite_count;
 	}
 
-	public void setUserProfilePicture(Bitmap userProfilePicture) {
-		this.userProfilePicture = userProfilePicture;
+	public void setFavorite_count(int favorite_count) {
+		this.favorite_count = favorite_count;
 	}
 
-	public String getTimeAgo() {
-		return timeAgo;
+	public int getRetweet_count() {
+		return retweet_count;
 	}
 
-	public void setTimeAgo(String timeAgo) {
-		this.timeAgo = timeAgo;
+	public void setRetweet_count(int retweet_count) {
+		this.retweet_count = retweet_count;
 	}
-
 }
