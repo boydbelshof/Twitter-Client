@@ -42,8 +42,8 @@ public class FollowingAdapter extends
 			int position) {
 		Tweet singleTweetItem = tweets.get(position);
 		holder.followingPf.setImageResource(R.drawable.applogo);
-		holder.followingUsername.setText(singleTweetItem.getUserProfileName());
-		holder.followingScreenname.setText(singleTweetItem.getUserName());
+		holder.followingUsername.setText(singleTweetItem.getUser().getName());
+		holder.followingScreenname.setText(singleTweetItem.getUser().getScreen_name());
 	}
 
 	public void setListener(Clicklistener clicklistener) {

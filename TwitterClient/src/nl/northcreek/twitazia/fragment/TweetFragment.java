@@ -37,9 +37,8 @@ public class TweetFragment extends ActionBarActivity {
 		TextView tweetFavoritesCount = (TextView) findViewById(R.id.singleTweetFavoritesCount);
 		TextView tweetRetweetCount = (TextView) findViewById(R.id.singleTweetRetweetCount);
 
-		tweetUserProfilePicture.setImageBitmap(tweet.getUserProfilePicture());
-		tweetUserScreenName.setText(tweet.getUserName());
-		tweetUserProfileName.setText(tweet.getUserProfileName());
+		tweetUserScreenName.setText(tweet.getUser().getScreen_name());
+		tweetUserProfileName.setText(tweet.getUser().getName());
 		tweetText.setText(tweet.getText());
 
 		tweetTime.setText(tweetTime.getText());

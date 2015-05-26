@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class Tweet extends Observable {
 	
@@ -24,14 +25,14 @@ public class Tweet extends Observable {
 		JSONObject userObject;
 		JSONObject entityObject;
 		try {
+			text = TweetObject.getString("text");
 			userObject = TweetObject.getJSONObject("user");
 			user = new User(userObject);
-			entityObject = TweetObject.getJSONObject("entity");
+			entityObject = TweetObject.getJSONObject("entities");
 			entity = new Entity(entityObject);
 			created_at = TweetObject.getString("created_at");
 			id = TweetObject.getInt("id");
 			id_str = TweetObject.getString("id_str");
-			text = TweetObject.getString("text");
 			favorite_count = TweetObject.getInt("favorite_count");
 			retweet_count = TweetObject.getInt("retweet_count");
 		} catch (JSONException e) {

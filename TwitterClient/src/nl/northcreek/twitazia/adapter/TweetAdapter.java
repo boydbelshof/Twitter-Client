@@ -17,6 +17,7 @@ import android.sax.StartElementListener;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,11 +51,11 @@ public class TweetAdapter extends
 		Tweet singleTweetItem = tweets.get(position);
 		holder.tweetUserProfilePicture.setImageResource(R.drawable.applogo);
 		holder.tweetUserProfileName.setText(singleTweetItem
-				.getUserProfileName());
-		holder.tweetUserScreenName.setText(singleTweetItem.getUserName());
+				.getUser().getName());
+		holder.tweetUserScreenName.setText(singleTweetItem.getUser().getScreen_name());
 		holder.tweetText.setText(singleTweetItem.getText());
-		holder.tweetTime.setText(singleTweetItem.getTimeAgo());
-	
+		Log.d("Text", singleTweetItem.getText() + 
+				 "");
 	}
 	
 	public void setListener(Clicklistener clicklistener){

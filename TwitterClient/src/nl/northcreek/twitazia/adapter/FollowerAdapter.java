@@ -43,8 +43,8 @@ public class FollowerAdapter extends
 			int position) {
 		Tweet singleTweetItem = tweets.get(position);
 		holder.followerPf.setImageResource(R.drawable.applogo);
-		holder.followerUsername.setText(singleTweetItem.getUserProfileName());
-		holder.followerScreenname.setText(singleTweetItem.getUserName());
+		holder.followerUsername.setText(singleTweetItem.getUser().getName());
+		holder.followerScreenname.setText(singleTweetItem.getUser().getScreen_name());
 		holder.followButton.setVisibility(View.VISIBLE);
 
 	}
