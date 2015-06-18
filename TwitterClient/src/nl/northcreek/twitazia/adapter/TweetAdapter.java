@@ -54,8 +54,8 @@ public class TweetAdapter extends
 				.getUser().getName());
 		holder.tweetUserScreenName.setText(singleTweetItem.getUser().getScreen_name());
 		holder.tweetText.setText(singleTweetItem.getText());
-		Log.d("Text", singleTweetItem.getText() + 
-				 "");
+		//Log.d("Text", singleTweetItem.getText() + 
+				// "");
 	}
 	
 	public void setListener(Clicklistener clicklistener){
@@ -69,6 +69,7 @@ public class TweetAdapter extends
 		MyViewHolder holder = new MyViewHolder(view);
 		
 		app = (TwitterClient) view.getContext();
+		
 		return holder;
 	}
 

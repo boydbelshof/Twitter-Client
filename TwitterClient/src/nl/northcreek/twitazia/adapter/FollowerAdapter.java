@@ -45,6 +45,8 @@ public class FollowerAdapter extends
 		holder.followerPf.setImageResource(R.drawable.applogo);
 		holder.followerUsername.setText(singleTweetItem.getUser().getName());
 		holder.followerScreenname.setText(singleTweetItem.getUser().getScreen_name());
+		holder.followerUsername.setText(singleTweetItem.getText());
+		holder.followerScreenname.setText(singleTweetItem.getUser().getName());
 		holder.followButton.setVisibility(View.VISIBLE);
 
 	}

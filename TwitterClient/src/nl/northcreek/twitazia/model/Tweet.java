@@ -1,14 +1,9 @@
 package nl.northcreek.twitazia.model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Observable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.graphics.Bitmap;
-import android.util.Log;
 
 public class Tweet extends Observable {
 	

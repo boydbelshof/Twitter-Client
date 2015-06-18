@@ -5,48 +5,40 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Entity {
-	
-	// Entity class
-	
+
+
 	private JSONArray hashtags;
 	private JSONArray urls;
 	private JSONArray symbols;
 	private JSONArray user_mentions;
 	private JSONArray media;
 
+	private int beginPosition, endPosition;
+
 	public Entity(JSONObject entityObject) {
 		try {
-			hashtags = entityObject.getJSONArray("hashtags");
-			urls = entityObject.getJSONArray("urls");
-			symbols = entityObject.getJSONArray("symbols");
-			user_mentions = entityObject.getJSONArray("user_mentions");
-			media = entityObject.getJSONArray("media");
+			JSONArray indices = entityObject.getJSONArray("indices");
+			beginPosition = indices.getInt(0);
+			endPosition = indices.getInt(1);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
-	public JSONArray getHashtags() {
-		return hashtags;
+	public int getBeginPosition() {
+		return beginPosition;
 	}
 
-	public JSONArray getUrls() {
-		return urls;
+	public void setBeginPosition(int beginPosition) {
+		this.beginPosition = beginPosition;
 	}
 
-	public JSONArray getSymbols() {
-		return symbols;
+	public int getEndPosition() {
+		return endPosition;
 	}
 
-	public JSONArray getUser_mentions() {
-		return user_mentions;
+	public void setEndPosition(int endPosition) {
+		this.endPosition = endPosition;
 	}
-
-	public JSONArray getMedia() {
-		return media;
-	}
-	
-	
 
 }

@@ -1,7 +1,5 @@
 package nl.northcreek.twitazia;
 
-import java.util.List;
-
 import nl.northcreek.twitazia.drawer.FragmentDrawer;
 import nl.northcreek.twitazia.fragment.ActivityFragment;
 import nl.northcreek.twitazia.fragment.DiscoverFragment;
@@ -11,33 +9,37 @@ import nl.northcreek.twitazia.fragment.MessagesFragment;
 import nl.northcreek.twitazia.fragment.SettingsFragment;
 import nl.northcreek.twitazia.fragment.TimelineFragment;
 import nl.northcreek.twitazia.fragment.TrendingFragment;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.Context;
+import nl.northcreek.twitazia.model.Model;
+import nl.northcreek.twitazia.network.OAuthAccessTokenRequest;
+import oauth.signpost.basic.DefaultOAuthProvider;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
-
 public class MainActivity extends ActionBarActivity implements
-		FragmentDrawer.FragmentDrawerListener, android.support.v7.widget.SearchView.OnQueryTextListener {
+		FragmentDrawer.FragmentDrawerListener {
 	private Toolbar mToolbar;
 	private FragmentDrawer drawerFragment;
 	private FragmentManager fragmentManager = getSupportFragmentManager();
 	private Fragment myFragment;
 	private int fragPos = 0;
-	
+	private TimelineFragment fragmentTweets = new TimelineFragment();
+	private Model model;
+	private TwitterClient app;
+	private OAuthAccessTokenRequest mRequest;
+	private CommonsHttpOAuthConsumer httpOauthConsumer;
+	private DefaultOAuthProvider httpOauthprovider;
+
+	SharedPreferences mPrefs;
+	final String firstTime = "firstTime";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -45,48 +47,32 @@ public class MainActivity extends ActionBarActivity implements
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		app = (TwitterClient) getApplicationContext();
+		httpOauthConsumer = app.getCommonsHttpOAuthConsumer();
+		httpOauthprovider = app.getHttpOauthprovider();
+		mPrefs = app.getPrefs();
+		model = app.getModel();
+		Boolean firstTimeBoolean = mPrefs.getBoolean(firstTime, false);
+		if (!firstTimeBoolean) {
+			SharedPreferences.Editor editor = mPrefs.edit();
+			editor.clear();
+			editor.putBoolean(firstTime, true);
+			editor.commit();
+			mRequest = new OAuthAccessTokenRequest(app, httpOauthConsumer,
+					httpOauthprovider);
+			mRequest.execute();
+		}
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
-
 		drawerFragment = (FragmentDrawer) getSupportFragmentManager()
 				.findFragmentById(R.id.fragment_navigation_drawer);
 		drawerFragment.setUp(R.id.fragment_navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
 		drawerFragment.setDrawerListener(this);
-
 		displayView(fragPos);
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		 MenuInflater inflater = getMenuInflater();
-	        // Inflate menu to add items to action bar if it is present.
-	        inflater.inflate(R.menu.searchview_in_menu, menu);
-	        MenuItem menuItem = menu.findItem(R.id.menu_search);
-	        // Associate searchable configuration with the SearchView
-	        SearchManager searchManager =
-	                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	        SearchView searchView =
-	                (SearchView) MenuItemCompat.getActionView(menuItem);
-	        
-		return true;
-	}
-
-	
-
-	public boolean onQueryTextChange(String newText) {
-
-		return false;
-	}
-
-	public boolean onQueryTextSubmit(String query) {
-
-		return false;
 	}
 
 	public boolean onClose() {
@@ -163,4 +149,5 @@ public class MainActivity extends ActionBarActivity implements
 			getSupportActionBar().setTitle(title);
 		}
 	}
+
 }
