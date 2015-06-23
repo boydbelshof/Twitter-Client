@@ -3,8 +3,6 @@ package nl.northcreek.twitazia.model;
 import java.util.ArrayList;
 import java.util.Observable;
 
-import nl.northcreek.twitazia.model.Tweet;
-
 public class Model extends Observable {
 	private String oAuthVerifier;
 	private String oAuthToken;

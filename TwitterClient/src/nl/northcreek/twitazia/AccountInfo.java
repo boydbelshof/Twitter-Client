@@ -1,21 +1,15 @@
 package nl.northcreek.twitazia;
 
-import java.util.List;
-import java.util.Vector;
-
 import nl.northcreek.twitazia.adapter.FollowerAdapter;
 import nl.northcreek.twitazia.adapter.FollowingAdapter;
 import nl.northcreek.twitazia.adapter.TweetAdapter;
 import nl.northcreek.twitazia.floatingactionbutton.FloatingActionButton;
 import nl.northcreek.twitazia.model.Model;
-import nl.northcreek.twitazia.model.Tweet;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,8 +19,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class AccountInfo extends ActionBarActivity {
 	private ViewPager mPager;
