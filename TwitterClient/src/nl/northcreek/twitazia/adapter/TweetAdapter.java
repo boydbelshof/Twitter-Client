@@ -1,5 +1,6 @@
 package nl.northcreek.twitazia.adapter;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,12 +10,17 @@ import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.model.Tweet;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TweetAdapter extends
@@ -46,9 +52,10 @@ public class TweetAdapter extends
 				.getUser().getName());
 		holder.tweetUserScreenName.setText(singleTweetItem.getUser().getScreen_name());
 		holder.tweetText.setText(singleTweetItem.getText());
-		//Log.d("Text", singleTweetItem.getText() + 
-				// "");
-	}
+		new DownloadImageTask(holder.tweetUserProfilePicture)
+        .execute(singleTweetItem.getUser().getProfile_image_url());
+}
+	
 	
 	public void setListener(Clicklistener clicklistener){
 		this.clicklistener = clicklistener;
@@ -81,7 +88,6 @@ public class TweetAdapter extends
 					.findViewById(R.id.tweetUserProfileName);
 			tweetText = (TextView) itemView.findViewById(R.id.tweetText);
 			tweetTime = (TextView) itemView.findViewById(R.id.tweetTime);
-			
 			tweetText.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -108,6 +114,30 @@ public class TweetAdapter extends
 	
 	public interface Clicklistener{
 		public void itemClicked(View view, int position);
+	}
+	
+	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+	    ImageView bmImage;
+
+	    public DownloadImageTask(CircleImageView bmImage) {
+	        this.bmImage = bmImage;
+	    }
+
+	    protected Bitmap doInBackground(String... urls) {
+	        String urldisplay = urls[0];
+	        Bitmap mIcon11 = null;
+	        try {
+	            InputStream in = new java.net.URL(urldisplay).openStream();
+	            mIcon11 = BitmapFactory.decodeStream(in);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return mIcon11;
+	    }
+
+	    protected void onPostExecute(Bitmap result) {
+	        bmImage.setImageBitmap(result);
+	    }
 	}
 
 }

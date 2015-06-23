@@ -1,7 +1,12 @@
 package nl.northcreek.twitazia.model;
 
+import nl.northcreek.twitazia.network.AccessTokenRequest;
+import nl.northcreek.twitazia.network.DownloadImageTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.graphics.Bitmap;
 
 public class User {
 	private int id;
@@ -9,6 +14,7 @@ public class User {
 	private String name;
 	private String screen_name;
 	private String profile_image_url;
+	private Bitmap profile_image;
 
 	public User(JSONObject userObject) {
 		try {
