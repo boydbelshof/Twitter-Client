@@ -18,7 +18,7 @@ public class TwitterClient extends Application {
 
 	@Override
 	public void onCreate() {
-		model = new Model();
+		model = new Model(this.getApplicationContext());
 		httpOauthConsumer = new CommonsHttpOAuthConsumer(consumerKey,
 				consumerSecret);
 		httpOauthprovider = new DefaultOAuthProvider(

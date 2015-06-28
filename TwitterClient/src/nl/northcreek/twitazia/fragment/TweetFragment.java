@@ -40,10 +40,10 @@ public class TweetFragment extends ActionBarActivity {
 		tweetUserScreenName.setText(tweet.getUser().getScreen_name());
 		tweetUserProfileName.setText(tweet.getUser().getName());
 		tweetText.setText(tweet.getText());
-
 		tweetTime.setText(tweetTime.getText());
 		tweetFavoritesCount.setText(tweetFavoritesCount.getText());
 		tweetRetweetCount.setText(tweetRetweetCount.getText());
+		
 
 	}
 

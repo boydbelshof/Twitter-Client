@@ -3,9 +3,12 @@ package nl.northcreek.twitazia.model;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import android.content.Context;
+
 public class Model extends Observable {
 	private String oAuthVerifier;
 	private String oAuthToken;
+	public static Context context;
 
 	public void update() {
 		notifyObservers();
@@ -15,7 +18,8 @@ public class Model extends Observable {
 
 	private ArrayList<Tweet> tweets;
 
-	public Model() {
+	public Model(Context context) {
+		this.context = context;
 		this.tweets = new ArrayList<Tweet>();
 	}
 

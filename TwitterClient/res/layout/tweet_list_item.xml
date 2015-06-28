@@ -13,9 +13,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" 
+            android:layout_height="match_parent"
             android:focusable="false"
-                android:focusableInTouchMode="false">
+            android:focusableInTouchMode="false" >
 
             <TextView
                 android:id="@+id/tweetUserScreenName"
@@ -54,16 +54,16 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/tweetUserProfilePicture"
-                android:ellipsize="end"
-                android:maxLength="140"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:textColorLink="@color/colorAccent"
                 android:autoLink="web"
                 android:bufferType="spannable"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:linksClickable="true"
+                android:maxLength="140"
                 android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede."
-                android:textColor="@color/navigationBarColor" />
+                android:textColor="@color/navigationBarColor"
+                android:textColorLink="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/tweetUserProfileName"
@@ -89,13 +89,14 @@
                 android:textSize="12sp" />
 
             <LinearLayout
+                android:id="@+id/linearLayout1"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/tweetText"
-                android:gravity="center_vertical|center_horizontal"
-                android:weightSum="4.5"
                 android:focusable="false"
-                android:focusableInTouchMode="false" >
+                android:focusableInTouchMode="false"
+                android:gravity="center_vertical|center_horizontal"
+                android:weightSum="4.5" >
 
                 <ImageButton
                     android:id="@+id/followButton"
@@ -150,8 +151,8 @@
                     android:layout_weight="0.5"
                     android:gravity="center_vertical"
                     android:text="81"
-                    android:textColor="@color/circular_progress_default_subtitle"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/circular_progress_default_subtitle" />
 
                 <ImageButton
                     android:id="@+id/imageButton3"
@@ -171,7 +172,7 @@
                     android:src="@drawable/ic_insert_drive_file_black_48dp" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/singleTweetReplyCount"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:layout_marginEnd="16dp"
@@ -179,10 +180,20 @@
                     android:layout_weight="0.5"
                     android:gravity="center_vertical"
                     android:text="48"
-                    android:textColor="@color/circular_progress_default_subtitle"
-                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/circular_progress_default_subtitle" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout1"
+                android:gravity="center"
+                android:src="@drawable/steynpotze" />
+
         </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>
