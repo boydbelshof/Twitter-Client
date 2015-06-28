@@ -5,12 +5,14 @@ import nl.northcreek.twitazia.fragment.ActivityFragment;
 import nl.northcreek.twitazia.fragment.DiscoverFragment;
 import nl.northcreek.twitazia.fragment.DraftsFragment;
 import nl.northcreek.twitazia.fragment.ListsFragment;
-import nl.northcreek.twitazia.fragment.MessagesFragment;
+import nl.northcreek.twitazia.fragment.MentionsFragment;
 import nl.northcreek.twitazia.fragment.SettingsFragment;
 import nl.northcreek.twitazia.fragment.TimelineFragment;
 import nl.northcreek.twitazia.fragment.TrendingFragment;
 import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.OAuthAccessTokenRequest;
+import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
+import oauth.signpost.OAuth;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -39,7 +42,7 @@ public class MainActivity extends ActionBarActivity implements
 	private DefaultOAuthProvider httpOauthprovider;
 
 	SharedPreferences mPrefs;
-	final String firstTime = "firstTime";
+	final String accessToken = "";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -52,15 +55,17 @@ public class MainActivity extends ActionBarActivity implements
 		httpOauthprovider = app.getHttpOauthprovider();
 		mPrefs = app.getPrefs();
 		model = app.getModel();
-		Boolean firstTimeBoolean = mPrefs.getBoolean(firstTime, false);
-		if (!firstTimeBoolean) {
-			SharedPreferences.Editor editor = mPrefs.edit();
-			editor.clear();
-			editor.putBoolean(firstTime, true);
-			editor.commit();
+		String hasAccesToken = mPrefs.getString(OAuth.OAUTH_TOKEN_SECRET,
+				null);
+		
+		if (hasAccesToken == null) {
 			mRequest = new OAuthAccessTokenRequest(app, httpOauthConsumer,
 					httpOauthprovider);
 			mRequest.execute();
+		} else {
+			Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(
+					app);
+			getHomeTimelineTweets.execute();
 		}
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(mToolbar);
@@ -99,36 +104,11 @@ public class MainActivity extends ActionBarActivity implements
 			fragPos = 0;
 			break;
 		case 1:
-			myFragment = new MessagesFragment();
+			myFragment = new MentionsFragment();
 			title = getString(R.string.title_messages);
 			fragPos = 1;
 			break;
 		case 2:
-			myFragment = new DiscoverFragment();
-			title = getString(R.string.title_discover);
-			fragPos = 2;
-			break;
-		case 3:
-			myFragment = new ActivityFragment();
-			title = getString(R.string.title_activity);
-			fragPos = 3;
-			break;
-		case 4:
-			myFragment = new TrendingFragment();
-			title = getString(R.string.title_trending);
-			fragPos = 4;
-			break;
-		case 5:
-			myFragment = new DraftsFragment();
-			title = getString(R.string.title_drafts);
-			fragPos = 5;
-			break;
-		case 6:
-			myFragment = new ListsFragment();
-			title = getString(R.string.title_lists);
-			fragPos = 6;
-			break;
-		case 7:
 			myFragment = new SettingsFragment();
 			title = getString(R.string.title_settings);
 			fragPos = 7;

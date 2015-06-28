@@ -7,7 +7,6 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -38,8 +37,7 @@ public class WebViewActivity extends Activity {
 					Log.d("SUCCESVOL INGELOGD", url);
 					String oAuthToken = url.substring(32, 59);
 					String oAuthVerifier = url.substring(75, url.length());
-					prefs = PreferenceManager
-							.getDefaultSharedPreferences(app);
+					prefs = app.getPrefs();
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.clear();
 					editor.putString("oauthVerifier", oAuthVerifier);

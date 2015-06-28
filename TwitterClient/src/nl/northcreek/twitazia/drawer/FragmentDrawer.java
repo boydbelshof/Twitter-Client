@@ -56,18 +56,8 @@ public class FragmentDrawer extends Fragment {
 			if (titles[i].contains("Timeline")) {
 				navItem.setImageIcon(R.drawable.ic_receipt_black_48dp);
 				navItem.setShowNotify(true);
-			} else if (titles[i].contains("Messages")) {
+			} else if (titles[i].contains("Mentions")) {
 				navItem.setImageIcon(R.drawable.ic_question_answer_black_48dp);
-			} else if (titles[i].contains("Discover")) {
-				navItem.setImageIcon(R.drawable.ic_public_black_48dp);
-			} else if (titles[i].contains("Activity")) {
-				navItem.setImageIcon(R.drawable.ic_people_black_48dp);
-			} else if (titles[i].contains("Trending")) {
-				navItem.setImageIcon(R.drawable.ic_whatshot_black_48dp);
-			} else if (titles[i].contains("Drafts")) {
-				navItem.setImageIcon(R.drawable.ic_insert_drive_file_black_48dp);
-			} else if (titles[i].contains("Lists")) {
-				navItem.setImageIcon(R.drawable.ic_list_black_48dp);
 			} else if (titles[i].contains("Settings")) {
 				navItem.setImageIcon(R.drawable.ic_settings_applications_black_48dp);
 			}

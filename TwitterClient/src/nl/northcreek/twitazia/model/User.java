@@ -1,8 +1,5 @@
 package nl.northcreek.twitazia.model;
 
-import nl.northcreek.twitazia.network.AccessTokenRequest;
-import nl.northcreek.twitazia.network.DownloadImageTask;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

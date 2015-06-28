@@ -5,7 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="nl.northcreek.twitazia.fragment.MessagesFragment" >
+    tools:context="nl.northcreek.twitazia.fragment.MentionsFragment" >
 
-  
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mentionsListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:divider="@null"
+                android:dividerHeight="0px"
+                android:scrollbars="none" >
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

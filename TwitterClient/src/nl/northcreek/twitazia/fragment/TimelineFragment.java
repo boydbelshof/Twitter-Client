@@ -11,6 +11,7 @@ import nl.northcreek.twitazia.floatingactionbutton.FloatingActionButton;
 import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.AccessTokenRequest;
 import nl.northcreek.twitazia.network.SearchTweetsTask;
+import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import android.app.Activity;
@@ -66,7 +67,7 @@ public class TimelineFragment extends Fragment implements Observer,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-
+		
 		app = (TwitterClient) getActivity().getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
@@ -74,6 +75,8 @@ public class TimelineFragment extends Fragment implements Observer,
 		httpOauthprovider = app.getHttpOauthprovider();
 		prefs = PreferenceManager.getDefaultSharedPreferences(app);
 		oauthVerifier = prefs.getString("oauthVerifier", null);
+		
+		
 	}
 
 	@Override
@@ -97,7 +100,7 @@ public class TimelineFragment extends Fragment implements Observer,
 	@Override
 	public boolean onQueryTextSubmit(String query) {
 
-		Toast.makeText(app.getApplicationContext(), "Our word : " + query,
+		Toast.makeText(app.getApplicationContext(), "Searching tweets with: " + query,
 				Toast.LENGTH_SHORT).show();
 		SearchTweetsTask oa = new SearchTweetsTask(getActivity(), query);
 		oa.execute();
@@ -187,10 +190,8 @@ public class TimelineFragment extends Fragment implements Observer,
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				AccessTokenRequest populate = new AccessTokenRequest(app,
-						httpOauthConsumer, httpOauthprovider, prefs,
-						oauthVerifier);
-				populate.execute();
+				Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(app);
+				getHomeTimelineTweets.execute();
 				swipeToRefresh.setRefreshing(false);
 			}
 		}, 2000);

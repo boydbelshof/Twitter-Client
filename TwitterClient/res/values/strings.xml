@@ -9,12 +9,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Sluiten</string>
     <string name="nav_item_timeline">Timeline</string>
-    <string name="nav_item_messages">Messages</string>
-    <string name="nav_item_discover">Discover</string>
-    <string name="nav_item_activity">Activity</string>
-    <string name="nav_item_trending">Trending</string>
-    <string name="nav_item_drafts">Drafts</string>
-    <string name="nav_item_lists">Lists</string>
+    <string name="nav_item_mentions">Mentions</string>
     <string name="atsymbol">\u0040</string>
     <string name="nav_item_settings">Settings</string>
     <string name="nav_header_username">\u0040lfpoelman</string>
@@ -29,12 +24,7 @@
     <!-- navigation drawer item labels -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_timeline</item>
-        <item>@string/nav_item_messages</item>
-        <item>@string/nav_item_discover</item>
-        <item>@string/nav_item_activity</item>
-        <item>@string/nav_item_trending</item>
-        <item>@string/nav_item_drafts</item>
-        <item>@string/nav_item_lists</item>
+        <item>@string/nav_item_mentions</item>
         <item>@string/nav_item_settings</item>
     </string-array>
     
@@ -48,12 +38,7 @@
     </string-array>
 
     <string name="title_timeline">Timeline</string>
-    <string name="title_messages">Messages</string>
-    <string name="title_discover">Discover</string>
-    <string name="title_activity">Activity</string>
-    <string name="title_trending">Trending</string>
-    <string name="title_drafts">Drafts</string>
-    <string name="title_lists">Lists</string>
+    <string name="title_messages">Mentions</string>
     <string name="title_settings">Settings</string>
 
 </resources>
