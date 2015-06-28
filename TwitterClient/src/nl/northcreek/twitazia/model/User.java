@@ -1,5 +1,10 @@
 package nl.northcreek.twitazia.model;
 
+<<<<<<< Updated upstream
+=======
+import nl.northcreek.twitazia.network.AccessTokenRequest;
+
+>>>>>>> Stashed changes
 import org.json.JSONException;
 import org.json.JSONObject;
 
