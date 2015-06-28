@@ -66,7 +66,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 			super(itemView);
 
 			tweetUserProfilePicture = (CircleImageView) itemView
-					.findViewById(R.id.tweetUserProfilePicture);
+					.findViewById(R.id.tweetUserPF);
 			tweetUserScreenName = (TextView) itemView
 					.findViewById(R.id.tweetUserScreenName);
 			tweetUserProfileName = (TextView) itemView

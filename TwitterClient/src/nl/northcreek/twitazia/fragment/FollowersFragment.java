@@ -48,7 +48,7 @@ public class FollowersFragment extends Fragment implements Observer,
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			model.clear();
-			rootView = inflater.inflate(R.layout.fragment_retweets, container,
+			rootView = inflater.inflate(R.layout.fragment_followers, container,
 					false);
 			swipeToRefresh = (SwipeRefreshLayout) rootView
 					.findViewById(R.id.swiperefreshlayout);

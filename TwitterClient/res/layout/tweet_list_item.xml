@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/tweetUserProfilePicture"
+                android:layout_toEndOf="@id/tweetUserPF"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="Boyd Belshof"
@@ -32,7 +32,7 @@
                 android:textStyle="normal" />
 
             <nl.northcreek.twitazia.CircleImageView
-                android:id="@+id/tweetUserProfilePicture"
+                android:id="@+id/tweetUserPF"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="10dp"
@@ -53,7 +53,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_toEndOf="@id/tweetUserProfilePicture"
+                android:layout_toEndOf="@id/tweetUserPF"
                 android:autoLink="web"
                 android:bufferType="spannable"
                 android:ellipsize="end"
@@ -100,8 +100,8 @@
 
                 <ImageButton
                     android:id="@+id/followButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="16dp"
@@ -115,7 +115,7 @@
                     android:scaleType="centerInside"
                     android:scaleX="0.54"
                     android:scaleY="0.54"
-                    android:src="@drawable/ic_whatshot_black_48dp" />
+                    android:src="@drawable/retweet" />
 
                 <TextView
                     android:id="@+id/singleTweetRetweetCount"
@@ -129,8 +129,8 @@
 
                 <ImageButton
                     android:id="@+id/imageButton2"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
@@ -142,7 +142,7 @@
                     android:scaleType="centerInside"
                     android:scaleX="0.54"
                     android:scaleY="0.54"
-                    android:src="@drawable/ic_question_answer_black_48dp" />
+                    android:src="@drawable/favorite" />
 
                 <TextView
                     android:id="@+id/singleTweetFavoritesCount"
@@ -156,8 +156,8 @@
 
                 <ImageButton
                     android:id="@+id/imageButton3"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:adjustViewBounds="true"
@@ -169,7 +169,7 @@
                     android:scaleType="centerInside"
                     android:scaleX="0.54"
                     android:scaleY="0.54"
-                    android:src="@drawable/ic_insert_drive_file_black_48dp" />
+                    android:src="@drawable/reply" />
 
                 <TextView
                     android:id="@+id/singleTweetReplyCount"
@@ -189,8 +189,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayout1"
-                android:gravity="center"
-                android:src="@drawable/steynpotze" />
+                android:gravity="center" />
 
         </RelativeLayout>
 

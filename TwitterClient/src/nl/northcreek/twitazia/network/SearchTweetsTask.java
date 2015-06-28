@@ -38,13 +38,10 @@ import android.util.Log;
 
 public class SearchTweetsTask extends AsyncTask<String, Void, String> {
 
-	public final static String consumerKey = "iAnfBl7eztTCmKzJ4ScGM05t2";
-	public final static String consumerSecret = "nTT9gYWIpsgfV71gWLTt8BGbNjbO7QCGvbA4rNx85hG1Np1dkb";
 	final static String TwitterTokenURL = "https://api.twitter.com/oauth2/token";
-	final static String screenName = "lfpoelman";
 	final static String TwitterStreamURL = "https://api.twitter.com/1.1/search/tweets.json?q=";
-	private String searchWord = "saxion";
-	private TwitterClient app = new TwitterClient();
+	private String searchWord = "";
+	private TwitterClient app;
 	private Model model;
 	private Context context;
 	private TweetAdapter tweetAdapter;
@@ -74,19 +71,15 @@ public class SearchTweetsTask extends AsyncTask<String, Void, String> {
 		model = app.getModel();
 		// Step 1: Encode consumer key and secret
 		try {
-
 			// URL encode the consumer key and secret
-			String urlApiKey = URLEncoder.encode(consumerKey, "UTF-8");
-			String urlApiSecret = URLEncoder.encode(consumerSecret, "UTF-8");
-
+			String urlApiKey = URLEncoder.encode(app.getCommonsHttpOAuthConsumer().getConsumerKey(), "UTF-8");
+			String urlApiSecret = URLEncoder.encode(app.getCommonsHttpOAuthConsumer().getConsumerSecret(), "UTF-8");
 			// Concatenate the encoded consumer key, a colon character, and the
 			// encoded consumer secret
 			String combined = urlApiKey + ":" + urlApiSecret;
-
 			// Base64 encode the string
 			String base64Encoded = Base64.encodeToString(combined.getBytes(),
 					Base64.NO_WRAP);
-
 			// Step 2: Obtain a bearer token
 			HttpPost httpPost = new HttpPost(TwitterTokenURL);
 			httpPost.setHeader("Authorization", "Basic " + base64Encoded);
@@ -96,13 +89,10 @@ public class SearchTweetsTask extends AsyncTask<String, Void, String> {
 			String rawAuthorization = getResponseBody(httpPost);
 			System.out.println(rawAuthorization);
 			Authenticated auth = jsonToAuthenticated(rawAuthorization);
-
 			if (auth != null && auth.getToken_type().equals("bearer")) {
-
 				// Step 3: Authenticate API requests with bearer token
 				HttpGet httpGet = new HttpGet(TwitterStreamURL
 						+ Uri.encode(searchWord));
-
 				// construct a normal HTTPS request and include an
 				// Authorization
 				// header with the value of Bearer <>
@@ -112,20 +102,18 @@ public class SearchTweetsTask extends AsyncTask<String, Void, String> {
 				// update the results with the body of the response
 				results = getResponseBody(httpGet);
 			}
+			model.clear();
 			JSONObject jsonObject = new JSONObject(results);
 			JSONArray tempOBJ = jsonObject.getJSONArray("statuses");
 			for (int i = 0; i < tempOBJ.length(); i++) {
 				JSONObject tweetOBJ = tempOBJ.getJSONObject(i);
 				Tweet tweet = new Tweet(tweetOBJ);
 				model.addTweet(tweet);
-
 			}
-
 		} catch (JSONException e) {
 		} catch (UnsupportedEncodingException ex) {
 		} catch (IllegalStateException ex1) {
 		}
-
 		return results;
 	}
 

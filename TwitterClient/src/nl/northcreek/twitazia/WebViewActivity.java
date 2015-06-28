@@ -40,8 +40,8 @@ public class WebViewActivity extends Activity {
 					prefs = app.getPrefs();
 					SharedPreferences.Editor editor = prefs.edit();
 					editor.clear();
-					editor.putString("oauthVerifier", oAuthVerifier);
-					editor.putString("oAuthToken", oAuthToken);
+					editor.putString("OAuthVerifier", oAuthVerifier);
+					editor.putString("OAuthToken", oAuthToken);
 					editor.commit();
 					model.setoAuthToken(oAuthToken);
 					model.setoAuthVerifier(oAuthVerifier);

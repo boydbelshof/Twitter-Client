@@ -4,8 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import nl.northcreek.twitazia.CircleImageView;
-import oauth.signpost.basic.DefaultOAuthProvider;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import nl.northcreek.twitazia.R;
 import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.adapter.TweetAdapter;
@@ -15,6 +13,8 @@ import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.SearchTweetsTask;
 import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
 import nl.northcreek.twitazia.network.Tweet_Post_Status;
+import oauth.signpost.basic.DefaultOAuthProvider;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -30,6 +30,7 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnCloseListener;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,8 +43,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 /**
- * Dit is de timeline van de gebruiker, hier kan hij alle recente tweets zien. 
+ * Dit is de timeline van de gebruiker, hier kan hij alle recente tweets zien.
+ * 
  * @author boyd
  *
  */
@@ -93,6 +96,17 @@ public class TimelineFragment extends Fragment implements Observer,
 		menuItem = menu.findItem(R.id.menu_search);
 		searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
 		searchView.setOnQueryTextListener(this);
+		searchView.setOnCloseListener(new OnCloseListener() {
+
+			@Override
+			public boolean onClose() {
+				model.clear();
+				Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(
+						app);
+				getHomeTimelineTweets.execute();
+				return false;
+			}
+		});
 		super.onCreateOptionsMenu(menu, inflater);
 
 	}
@@ -111,8 +125,9 @@ public class TimelineFragment extends Fragment implements Observer,
 		return false;
 	}
 
-	/** 
-	 * Hier word de floating action button aangemaakt waarop je moet klikken om een nieuwe tweet de wereld in te sturen. 
+	/**
+	 * Hier word de floating action button aangemaakt waarop je moet klikken om
+	 * een nieuwe tweet de wereld in te sturen.
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,7 +165,8 @@ public class TimelineFragment extends Fragment implements Observer,
 	}
 
 	/**
-	 * Dit is het menu waar je vervolgens in terecht komt. 
+	 * Dit is het menu waar je vervolgens in terecht komt.
+	 * 
 	 * @param activity
 	 * @param rootView
 	 */
@@ -164,6 +180,10 @@ public class TimelineFragment extends Fragment implements Observer,
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 		Button postTweetbutton = (Button) myDialog.findViewById(R.id.button1);
 		final EditText edtInput = (EditText)	myDialog.findViewById(R.id.edtInput);
+
+		CircleImageView circleImageView = (CircleImageView) myDialog
+				.findViewById(R.id.followerPf);
+
 		postTweetbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				String tweetText = edtInput.getText().toString();

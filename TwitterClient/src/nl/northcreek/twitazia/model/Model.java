@@ -18,14 +18,18 @@ public class Model extends Observable {
 
 	private ArrayList<Tweet> tweets;
 	private ArrayList<User> users;
+	private ArrayList<User> currentUser;
 
 	public Model(Context context) {
 		this.context = context;
 		this.tweets = new ArrayList<Tweet>();
 		this.users = new ArrayList<User>();
+		this.currentUser = new ArrayList<User>();
 		
 	}
-
+	public void addCurrentUser(User user) {
+		this.currentUser.add(user);
+	}
 	public void addTweet(Tweet tweet) {
 		this.tweets.add(tweet);
 	}
@@ -37,7 +41,9 @@ public class Model extends Observable {
 	public ArrayList<Tweet> getTweets() {
 		return this.tweets;
 	}
-	
+	public ArrayList<User> getCurrentUser() {
+		return this.currentUser;
+	}
 	public ArrayList<User> getUsers() {
 		return this.users;
 	}
@@ -65,4 +71,5 @@ public class Model extends Observable {
 	public void setoAuthToken(String oAuthToken) {
 		this.oAuthToken = oAuthToken;
 	}
+
 }

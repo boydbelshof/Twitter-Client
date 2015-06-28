@@ -3,14 +3,11 @@ package nl.northcreek.twitazia.drawer;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import nl.northcreek.twitazia.CircleImageView;
 import nl.northcreek.twitazia.R;
 import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.adapter.NavigationDrawerAdapter;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +20,6 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 public class FragmentDrawer extends Fragment {
@@ -75,7 +71,7 @@ public class FragmentDrawer extends Fragment {
 				R.array.nav_drawer_labels);
 
 		app = (TwitterClient) getActivity().getApplicationContext();
-
+		
 	}
 
 	@Override
@@ -85,11 +81,8 @@ public class FragmentDrawer extends Fragment {
 		View layout = inflater.inflate(R.layout.fragment_navigation_drawer,
 				container, false);
 		
-		
-
 		recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
 		adapter = new NavigationDrawerAdapter(app, getData());
-
 		recyclerView.addOnItemTouchListener(new RecyclerTouchListener(app,
 				recyclerView, new ClickListener() {
 					@Override
@@ -124,7 +117,7 @@ public class FragmentDrawer extends Fragment {
 				super.onDrawerOpened(drawerView);
 				getActivity().invalidateOptionsMenu();
 			}
-			
+
 			@Override
 			public void onConfigurationChanged(Configuration newConfig) {
 				super.onConfigurationChanged(newConfig);
@@ -214,4 +207,6 @@ public class FragmentDrawer extends Fragment {
 	public interface FragmentDrawerListener {
 		public void onDrawerItemSelected(View view, int position);
 	}
+
+
 }

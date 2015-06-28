@@ -74,7 +74,6 @@ public class Tweet_Get_Followers extends AsyncTask<String, Void, String> {
 					JSONObject userOBJ = jsonArray.getJSONObject(i);
 					User user = new User(userOBJ);
 					model.addUser(user);
-					Log.d("USER ADDED","add");
 				}
 			}
 		} catch (OAuthMessageSignerException e) {

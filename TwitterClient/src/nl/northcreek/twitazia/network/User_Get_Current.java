@@ -7,9 +7,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import nl.northcreek.twitazia.TwitterClient;
-import nl.northcreek.twitazia.adapter.TweetAdapter;
 import nl.northcreek.twitazia.model.Model;
-import nl.northcreek.twitazia.model.Tweet;
+import nl.northcreek.twitazia.model.User;
 import oauth.signpost.OAuth;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
@@ -23,32 +22,35 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
+public class User_Get_Current extends AsyncTask<String, Void, String> {
 	private TwitterClient app;
 	private Model model;
 	private CommonsHttpOAuthConsumer httpOauthConsumer;
 	private HttpGet httpGet;
 	private int statusCode;
 	private SharedPreferences prefs;
-	private TweetAdapter tweetAdapter;
-	private RecyclerView lvTweets;
 
-	public Tweet_Get_HomeTimeline(TwitterClient app) {
+
+
+	public User_Get_Current(TwitterClient app) {
 		this.app = app;
 	}
 	@Override
-	protected String doInBackground(String... params) {
+	protected void onPreExecute() {
+		super.onPreExecute();
 		app = (TwitterClient) app.getApplicationContext();
+	}
+	@Override
+	protected String doInBackground(String... params) {
 		model = app.getModel();
+		model.clear();
 		httpOauthConsumer = app.getCommonsHttpOAuthConsumer();
 		String results = null;
 		prefs = app.getPrefs();
@@ -57,18 +59,16 @@ public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
 		httpOauthConsumer.setTokenWithSecret(token, secret);
 		try {
 			httpGet = new HttpGet(
-					"https://api.twitter.com/1.1/statuses/home_timeline.json");
+					"https://api.twitter.com/1.1/account/verify_credentials.json");
 			httpOauthConsumer.sign(httpGet);
 			results = getResponseBody(httpGet);
 			if (statusCode == 200) {
-				model.clear();
-				JSONArray jsonObject = new JSONArray(results);
-				for (int i = 0; i < jsonObject.length(); i++) {
-					JSONObject tweetOBJ = jsonObject.getJSONObject(i);
-					Tweet tweet = new Tweet(tweetOBJ);
-					model.addTweet(tweet);
+				JSONObject jsonObject = new JSONObject(results);
+				User user = new User(jsonObject);
+				model.addCurrentUser(user);
+				Log.d("USER ADDED",model.getCurrentUser().size() + "");
 				}
-			}
+			
 		} catch (OAuthMessageSignerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,12 +88,6 @@ public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String results) {
 		model.update();
-		tweetAdapter = new TweetAdapter(app, model.getTweets());
-		lvTweets = new RecyclerView(app);
-		lvTweets.setAdapter(tweetAdapter);
-		tweetAdapter.notifyDataSetChanged();
-		model.update();
-
 		super.onPostExecute(results);
 	}
 
@@ -107,6 +101,7 @@ public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
 			String reason = response.getStatusLine().getReasonPhrase();
 			Log.d("STATUS CODE", Integer.toString(statusCode));
 			Log.d("STATUS REASON", reason);
+
 			if (statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 				InputStream inputStream = entity.getContent();
@@ -126,4 +121,5 @@ public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
 		}
 		return sb.toString();
 	}
+
 }

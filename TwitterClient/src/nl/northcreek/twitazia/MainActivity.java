@@ -1,13 +1,16 @@
 package nl.northcreek.twitazia;
 
 import nl.northcreek.twitazia.drawer.FragmentDrawer;
-import nl.northcreek.twitazia.fragment.MentionsFragment;
+import nl.northcreek.twitazia.fragment.CopyOfTimelineFragment;
 import nl.northcreek.twitazia.fragment.FollowersFragment;
+import nl.northcreek.twitazia.fragment.MentionsFragment;
+import nl.northcreek.twitazia.fragment.ProfileFragment;
 import nl.northcreek.twitazia.fragment.SettingsFragment;
 import nl.northcreek.twitazia.fragment.TimelineFragment;
 import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.OAuthAccessTokenRequest;
 import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
+import nl.northcreek.twitazia.network.User_Get_Current;
 import oauth.signpost.OAuth;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -50,18 +53,21 @@ public class MainActivity extends ActionBarActivity implements
 		httpOauthprovider = app.getHttpOauthprovider();
 		mPrefs = app.getPrefs();
 		model = app.getModel();
-		String hasAccessToken = mPrefs.getString(OAuth.OAUTH_TOKEN_SECRET,
-				null);
+		String hasAccessToken = mPrefs
+				.getString(OAuth.OAUTH_TOKEN_SECRET, null);
 		if (hasAccessToken == null) {
 			mRequest = new OAuthAccessTokenRequest(app, httpOauthConsumer,
 					httpOauthprovider);
 			mRequest.execute();
 		} else {
+			
 			Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(
 					app);
 			getHomeTimelineTweets.execute();
+			User_Get_Current getCurrentUserTask = new User_Get_Current(app);
+			getCurrentUserTask.execute();
 		}
-		
+
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements
 				(DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
 		drawerFragment.setDrawerListener(this);
 		displayView(fragPos);
-		
 
 	}
 
@@ -100,19 +105,24 @@ public class MainActivity extends ActionBarActivity implements
 			fragPos = 0;
 			break;
 		case 1:
-			myFragment = new MentionsFragment();
-			title = getString(R.string.title_mentions);
+			myFragment = new CopyOfTimelineFragment();
+			title = getString(R.string.title_profile);
 			fragPos = 1;
 			break;
 		case 2:
-			myFragment = new FollowersFragment();
-			title = getString(R.string.title_retweets);
+			myFragment = new MentionsFragment();
+			title = getString(R.string.title_mentions);
 			fragPos = 2;
 			break;
 		case 3:
+			myFragment = new FollowersFragment();
+			title = getString(R.string.title_retweets);
+			fragPos = 3;
+			break;
+		case 4:
 			myFragment = new SettingsFragment();
 			title = getString(R.string.title_settings);
-			fragPos = 3;
+			fragPos = 4;
 			break;
 		default:
 			break;

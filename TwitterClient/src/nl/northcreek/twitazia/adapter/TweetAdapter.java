@@ -111,7 +111,7 @@ public class TweetAdapter extends
 			super(itemView);
 			itemView.setOnClickListener(this);
 			tweetUserProfilePicture = (CircleImageView) itemView
-					.findViewById(R.id.tweetUserProfilePicture);
+					.findViewById(R.id.tweetUserPF);
 			tweetUserScreenName = (TextView) itemView
 					.findViewById(R.id.tweetUserScreenName);
 			tweetUserProfileName = (TextView) itemView
