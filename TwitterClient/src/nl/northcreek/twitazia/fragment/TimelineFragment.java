@@ -2,6 +2,7 @@ package nl.northcreek.twitazia.fragment;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import nl.northcreek.twitazia.CircleImageView;
 import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
@@ -13,6 +14,7 @@ import nl.northcreek.twitazia.floatingactionbutton.FloatingActionButton;
 import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.SearchTweetsTask;
 import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
+import nl.northcreek.twitazia.network.Tweet_Post_Status;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -38,6 +40,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 /**
  * Dit is de timeline van de gebruiker, hier kan hij alle recente tweets zien. 
@@ -159,13 +162,13 @@ public class TimelineFragment extends Fragment implements Observer,
 		myDialog.setCancelable(true);
 		myDialog.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		CircleImageView circleImageView = (CircleImageView) myDialog.findViewById(R.id.followerPf);
 		Button postTweetbutton = (Button) myDialog.findViewById(R.id.button1);
+		final EditText edtInput = (EditText)	myDialog.findViewById(R.id.edtInput);
 		postTweetbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Toast t = new Toast(getActivity()).makeText(getActivity(),
-						"Tweet posted!", Toast.LENGTH_SHORT);
-				t.show();
+				String tweetText = edtInput.getText().toString();
+				Tweet_Post_Status tweet = new Tweet_Post_Status(app);
+				tweet.execute(tweetText);
 				myDialog.dismiss();
 
 			}
