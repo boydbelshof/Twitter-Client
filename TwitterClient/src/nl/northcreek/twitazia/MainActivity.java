@@ -1,14 +1,10 @@
 package nl.northcreek.twitazia;
 
 import nl.northcreek.twitazia.drawer.FragmentDrawer;
-import nl.northcreek.twitazia.fragment.ActivityFragment;
-import nl.northcreek.twitazia.fragment.DiscoverFragment;
-import nl.northcreek.twitazia.fragment.DraftsFragment;
-import nl.northcreek.twitazia.fragment.ListsFragment;
 import nl.northcreek.twitazia.fragment.MentionsFragment;
+import nl.northcreek.twitazia.fragment.FollowersFragment;
 import nl.northcreek.twitazia.fragment.SettingsFragment;
 import nl.northcreek.twitazia.fragment.TimelineFragment;
-import nl.northcreek.twitazia.fragment.TrendingFragment;
 import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.OAuthAccessTokenRequest;
 import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
@@ -23,7 +19,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -55,10 +50,9 @@ public class MainActivity extends ActionBarActivity implements
 		httpOauthprovider = app.getHttpOauthprovider();
 		mPrefs = app.getPrefs();
 		model = app.getModel();
-		String hasAccesToken = mPrefs.getString(OAuth.OAUTH_TOKEN_SECRET,
+		String hasAccessToken = mPrefs.getString(OAuth.OAUTH_TOKEN_SECRET,
 				null);
-		
-		if (hasAccesToken == null) {
+		if (hasAccessToken == null) {
 			mRequest = new OAuthAccessTokenRequest(app, httpOauthConsumer,
 					httpOauthprovider);
 			mRequest.execute();
@@ -67,6 +61,7 @@ public class MainActivity extends ActionBarActivity implements
 					app);
 			getHomeTimelineTweets.execute();
 		}
+		
 		mToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -77,6 +72,7 @@ public class MainActivity extends ActionBarActivity implements
 				(DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
 		drawerFragment.setDrawerListener(this);
 		displayView(fragPos);
+		
 
 	}
 
@@ -105,13 +101,18 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 		case 1:
 			myFragment = new MentionsFragment();
-			title = getString(R.string.title_messages);
+			title = getString(R.string.title_mentions);
 			fragPos = 1;
 			break;
 		case 2:
+			myFragment = new FollowersFragment();
+			title = getString(R.string.title_retweets);
+			fragPos = 2;
+			break;
+		case 3:
 			myFragment = new SettingsFragment();
 			title = getString(R.string.title_settings);
-			fragPos = 7;
+			fragPos = 3;
 			break;
 		default:
 			break;

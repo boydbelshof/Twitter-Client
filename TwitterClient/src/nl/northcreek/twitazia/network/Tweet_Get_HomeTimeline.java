@@ -45,7 +45,6 @@ public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
 	public Tweet_Get_HomeTimeline(TwitterClient app) {
 		this.app = app;
 	}
-
 	@Override
 	protected String doInBackground(String... params) {
 		app = (TwitterClient) app.getApplicationContext();
@@ -89,7 +88,6 @@ public class Tweet_Get_HomeTimeline extends AsyncTask<String, Void, String> {
 
 	@Override
 	protected void onPostExecute(String results) {
-		Log.d("UPDATE ADAPTER", "UPDATE VAN ADAPTER");
 		model.update();
 		tweetAdapter = new TweetAdapter(app, model.getTweets());
 		lvTweets = new RecyclerView(app);

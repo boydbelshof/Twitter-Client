@@ -17,24 +17,35 @@ public class Model extends Observable {
 	}
 
 	private ArrayList<Tweet> tweets;
+	private ArrayList<User> users;
 
 	public Model(Context context) {
 		this.context = context;
 		this.tweets = new ArrayList<Tweet>();
+		this.users = new ArrayList<User>();
+		
 	}
 
 	public void addTweet(Tweet tweet) {
 		this.tweets.add(tweet);
 	}
+	
+	public void addUser(User user) {
+		this.users.add(user);
+	}
 
 	public ArrayList<Tweet> getTweets() {
 		return this.tweets;
+	}
+	
+	public ArrayList<User> getUsers() {
+		return this.users;
 	}
 
 	public Tweet getTweetsAtPosition(int id) {
 		return tweets.get(id);
 	}
-
+	
 	public void clear() {
 		tweets.clear();
 	}

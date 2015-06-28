@@ -3,7 +3,7 @@ package nl.northcreek.twitazia.drawer;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.northcreek.twitazia.AccountInfo;
+
 import nl.northcreek.twitazia.CircleImageView;
 import nl.northcreek.twitazia.R;
 import nl.northcreek.twitazia.TwitterClient;
@@ -85,16 +85,7 @@ public class FragmentDrawer extends Fragment {
 		View layout = inflater.inflate(R.layout.fragment_navigation_drawer,
 				container, false);
 		
-		CircleImageView drawerPic = (CircleImageView) layout.findViewById(R.id.tweetUserProfilePicture);
-		drawerPic.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(app, AccountInfo.class);
-				startActivity(intent);
-				
-			}
-		});
+		
 
 		recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
 		adapter = new NavigationDrawerAdapter(app, getData());

@@ -2,19 +2,17 @@ package nl.northcreek.twitazia.fragment;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import nl.northcreek.twitazia.CircleImageView;
+import oauth.signpost.basic.DefaultOAuthProvider;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import nl.northcreek.twitazia.R;
 import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.adapter.TweetAdapter;
 import nl.northcreek.twitazia.adapter.TweetAdapter.Clicklistener;
 import nl.northcreek.twitazia.floatingactionbutton.FloatingActionButton;
 import nl.northcreek.twitazia.model.Model;
-import nl.northcreek.twitazia.network.AccessTokenRequest;
 import nl.northcreek.twitazia.network.SearchTweetsTask;
 import nl.northcreek.twitazia.network.Tweet_Get_HomeTimeline;
-import oauth.signpost.basic.DefaultOAuthProvider;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -75,7 +73,6 @@ public class TimelineFragment extends Fragment implements Observer,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		
 		app = (TwitterClient) getActivity().getApplicationContext();
 		model = app.getModel();
 		model.addObserver(this);
@@ -83,14 +80,12 @@ public class TimelineFragment extends Fragment implements Observer,
 		httpOauthprovider = app.getHttpOauthprovider();
 		prefs = PreferenceManager.getDefaultSharedPreferences(app);
 		oauthVerifier = prefs.getString("oauthVerifier", null);
-		
-		
+
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater = getActivity().getMenuInflater();
-		// Inflate menu to add items to action bar if it is present.
 		inflater.inflate(R.menu.searchview_in_menu, menu);
 		menuItem = menu.findItem(R.id.menu_search);
 		searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
@@ -101,15 +96,13 @@ public class TimelineFragment extends Fragment implements Observer,
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
-
 		return false;
 	}
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-
-		Toast.makeText(app.getApplicationContext(), "Searching tweets with: " + query,
-				Toast.LENGTH_SHORT).show();
+		Toast.makeText(app.getApplicationContext(),
+				"Searching tweets with: " + query, Toast.LENGTH_SHORT).show();
 		SearchTweetsTask oa = new SearchTweetsTask(getActivity(), query);
 		oa.execute();
 		return false;
@@ -123,6 +116,7 @@ public class TimelineFragment extends Fragment implements Observer,
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_timeline, container,
 				false);
+		model.clear();
 		swipeToRefresh = (SwipeRefreshLayout) rootView
 				.findViewById(R.id.swiperefreshlayout);
 		swipeToRefresh.setOnRefreshListener(this);
@@ -135,18 +129,18 @@ public class TimelineFragment extends Fragment implements Observer,
 		floatingActionButton.setColorPressed(Color.rgb(2, 119, 189));
 		floatingActionButton.setIcon(R.drawable.posttweeticon);
 		floatingActionButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				messageDialog(getActivity(), rootView);
 			}
 		});
-
 		tweetAdapter = new TweetAdapter(getActivity().getApplicationContext(),
 				model.getTweets());
-		tweetAdapter.setListener(this);
-
+		Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(
+				app);
+		getHomeTimelineTweets.execute();
 		lvTweets.setLayoutManager(new LinearLayoutManager(getActivity()));
+		tweetAdapter.notifyDataSetChanged();
 		lvTweets.setAdapter(tweetAdapter);
 
 		return rootView;
@@ -206,11 +200,12 @@ public class TimelineFragment extends Fragment implements Observer,
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(app);
+				Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(
+						app);
 				getHomeTimelineTweets.execute();
 				swipeToRefresh.setRefreshing(false);
 			}
-		}, 2000);
+		}, 1000);
 
 	}
 

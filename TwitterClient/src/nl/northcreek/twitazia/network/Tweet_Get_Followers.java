@@ -7,14 +7,14 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
 import nl.northcreek.twitazia.TwitterClient;
-import nl.northcreek.twitazia.adapter.TweetAdapter;
+import nl.northcreek.twitazia.adapter.UserAdapter;
+import nl.northcreek.twitazia.model.Model;
+import nl.northcreek.twitazia.model.User;
 import oauth.signpost.OAuth;
-import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.exception.OAuthNotAuthorizedException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -23,60 +23,71 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-public class AccessTokenRequest extends AsyncTask<String, Void, String> {
-	private CommonsHttpOAuthConsumer httpOauthConsumer;
-	private DefaultOAuthProvider httpOauthprovider;
+public class Tweet_Get_Followers extends AsyncTask<String, Void, String> {
 	private TwitterClient app;
-	private TweetAdapter tweetAdapter;
-	private RecyclerView lvTweets;
+	private Model model;
+	private CommonsHttpOAuthConsumer httpOauthConsumer;
 	private HttpGet httpGet;
 	private int statusCode;
 	private SharedPreferences prefs;
-	private String oauthVerifier;
+	private UserAdapter userAdapter;
+	private RecyclerView lvMentions;
 
-	public AccessTokenRequest(TwitterClient app,
-			CommonsHttpOAuthConsumer httpOauthConsumer,
-			DefaultOAuthProvider httpOauthprovider, SharedPreferences prefs,
-			String oauthVerifier) {
+	public Tweet_Get_Followers(TwitterClient app) {
 		this.app = app;
-		this.httpOauthConsumer = httpOauthConsumer;
-		this.httpOauthprovider = httpOauthprovider;
-		this.prefs = prefs;
-		this.oauthVerifier = oauthVerifier;
 	}
-
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		app = (TwitterClient) app.getApplicationContext();
+	}
 	@Override
 	protected String doInBackground(String... params) {
+		model = app.getModel();
+		model.clear();
+		httpOauthConsumer = app.getCommonsHttpOAuthConsumer();
 		String results = null;
-		app = (TwitterClient) app.getApplicationContext();
 		prefs = app.getPrefs();
-		oauthVerifier = prefs.getString("oauthVerifier", null);
-		httpOauthConsumer.setTokenWithSecret(oauthVerifier, httpOauthConsumer.getTokenSecret());
+		String token = prefs.getString(OAuth.OAUTH_TOKEN, "");
+		String secret = prefs.getString(OAuth.OAUTH_TOKEN_SECRET, "");
+		httpOauthConsumer.setTokenWithSecret(token, secret);
 		try {
-			httpOauthprovider.retrieveAccessToken(httpOauthConsumer,
-					oauthVerifier);
-			final Editor edit1 = prefs.edit();
-	//		edit1.clear();
-			edit1.putString(OAuth.OAUTH_TOKEN, httpOauthConsumer.getToken());
-			edit1.putString(OAuth.OAUTH_TOKEN_SECRET,
-					httpOauthConsumer.getTokenSecret());
-			edit1.commit();
-			
+			httpGet = new HttpGet(
+					"https://api.twitter.com/1.1/followers/list.json?count=200");
+			httpOauthConsumer.sign(httpGet);
+			results = getResponseBody(httpGet);
+			if (statusCode == 200) {
+				model.clear();
+				JSONObject jsonObject = new JSONObject(results);
+				JSONArray jsonArray = jsonObject.getJSONArray("users");
+				System.out.println(jsonArray.toString());
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject userOBJ = jsonArray.getJSONObject(i);
+					User user = new User(userOBJ);
+					model.addUser(user);
+					Log.d("USER ADDED","add");
+				}
+			}
 		} catch (OAuthMessageSignerException e) {
-			e.printStackTrace();
-		} catch (OAuthNotAuthorizedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (OAuthExpectationFailedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (OAuthCommunicationException e) {
-			Log.d("ACCESS TOKEN", e.getMessage());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return results;
@@ -84,10 +95,12 @@ public class AccessTokenRequest extends AsyncTask<String, Void, String> {
 
 	@Override
 	protected void onPostExecute(String results) {
-		Tweet_Get_HomeTimeline getHomeTimelineTweets = new Tweet_Get_HomeTimeline(
-				app);
-		getHomeTimelineTweets.execute();
-
+		model.update();
+		userAdapter = new UserAdapter(app, model.getUsers());
+		lvMentions = new RecyclerView(app);
+		lvMentions.setAdapter(userAdapter);
+		userAdapter.notifyDataSetChanged();
+		model.update();
 		super.onPostExecute(results);
 	}
 
@@ -101,6 +114,7 @@ public class AccessTokenRequest extends AsyncTask<String, Void, String> {
 			String reason = response.getStatusLine().getReasonPhrase();
 			Log.d("STATUS CODE", Integer.toString(statusCode));
 			Log.d("STATUS REASON", reason);
+
 			if (statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 				InputStream inputStream = entity.getContent();
@@ -120,5 +134,5 @@ public class AccessTokenRequest extends AsyncTask<String, Void, String> {
 		}
 		return sb.toString();
 	}
-}
 
+}

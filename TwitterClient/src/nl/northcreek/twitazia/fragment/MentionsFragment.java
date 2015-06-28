@@ -9,13 +9,9 @@ import nl.northcreek.twitazia.adapter.TweetAdapter;
 import nl.northcreek.twitazia.adapter.TweetAdapter.Clicklistener;
 import nl.northcreek.twitazia.model.Model;
 import nl.northcreek.twitazia.network.Tweet_Get_Mentions;
-import oauth.signpost.basic.DefaultOAuthProvider;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -28,17 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class MentionsFragment extends Fragment implements Observer,
-OnRefreshListener, Clicklistener {
+		OnRefreshListener, Clicklistener {
 	private TweetAdapter tweetAdapter;
 	private RecyclerView lvMentions;
 	private View rootView;
 	private Model model;
 	private TwitterClient app;
 	private SwipeRefreshLayout swipeToRefresh;
-	private CommonsHttpOAuthConsumer httpOauthConsumer;
-	private DefaultOAuthProvider httpOauthprovider;
-	private SharedPreferences prefs;
-	private String oauthVerifier;
+
 	public MentionsFragment() {
 		// Required empty public constructor
 	}
@@ -48,34 +41,31 @@ OnRefreshListener, Clicklistener {
 		super.onCreate(savedInstanceState);
 		app = (TwitterClient) getActivity().getApplicationContext();
 		model = app.getModel();
-		httpOauthConsumer = app.getCommonsHttpOAuthConsumer();
-		httpOauthprovider = app.getHttpOauthprovider();
 		model.addObserver(this);
-		prefs = PreferenceManager.getDefaultSharedPreferences(app);
-		oauthVerifier = prefs.getString("oauthVerifier", null);
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
-		rootView = inflater.inflate(R.layout.fragment_messages, container,
+		model.clear();
+		rootView = inflater.inflate(R.layout.fragment_mentions, container,
 				false);
 		swipeToRefresh = (SwipeRefreshLayout) rootView
 				.findViewById(R.id.swiperefreshlayout);
 		swipeToRefresh.setOnRefreshListener(this);
 		swipeToRefresh.setColorScheme(android.R.color.holo_blue_light,
 				android.R.color.holo_blue_dark);
-		lvMentions = (RecyclerView) rootView.findViewById(R.id.mentionsListView);
-		tweetAdapter = new TweetAdapter(getActivity().getApplicationContext(),
-				model.getTweets());
-		tweetAdapter.setListener(this);
-
+		lvMentions = (RecyclerView) rootView
+				.findViewById(R.id.mentionsListView);
+		tweetAdapter = new TweetAdapter(getActivity().getApplicationContext(), model.getTweets());
 		lvMentions.setLayoutManager(new LinearLayoutManager(getActivity()));
-		lvMentions.setAdapter(tweetAdapter);
-
 		Tweet_Get_Mentions getMentions = new Tweet_Get_Mentions(app);
 		getMentions.execute();
+		tweetAdapter.notifyDataSetChanged();
+		lvMentions.setAdapter(tweetAdapter);
+
 		return rootView;
 	}
 
@@ -94,7 +84,7 @@ OnRefreshListener, Clicklistener {
 	public void onDetach() {
 		super.onDetach();
 	}
-	
+
 	@Override
 	public void onRefresh() {
 
@@ -112,12 +102,12 @@ OnRefreshListener, Clicklistener {
 	@Override
 	public void itemClicked(View view, int position) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Observable observable, Object data) {
 		tweetAdapter.notifyDataSetChanged();
-		
+
 	}
 }
