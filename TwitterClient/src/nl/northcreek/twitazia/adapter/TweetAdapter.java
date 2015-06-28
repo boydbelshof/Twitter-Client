@@ -126,14 +126,6 @@ public class TweetAdapter extends
 
 				@Override
 				public void onClick(View v) {
-					String url = (String) tweetText.getText().subSequence(
-							tweetText.getSelectionStart(),
-							tweetText.getSelectionEnd());
-					Intent i = new Intent(Intent.ACTION_VIEW);
-					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					i.setData(Uri.parse(url));
-					v.getContext().getApplicationContext().startActivity(i);
-
 				}
 			});
 		}
@@ -157,7 +149,7 @@ public class TweetAdapter extends
 	 * weergegeven, dit is een AsyncTask omdat je hier te maken hebt met
 	 * netwerkverkeer.
 	 * 
-	 * @author boyd
+	 * @author Boyd
 	 *
 	 */
 	private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

@@ -3,6 +3,7 @@ package nl.northcreek.twitazia.fragment;
 import java.util.Observable;
 import java.util.Observer;
 
+import nl.northcreek.twitazia.CircleImageView;
 import nl.northcreek.twitazia.R;
 import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.adapter.TweetAdapter;
@@ -40,7 +41,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-
+/**
+ * Dit is de timeline van de gebruiker, hier kan hij alle recente tweets zien. 
+ * @author boyd
+ *
+ */
 public class TimelineFragment extends Fragment implements Observer,
 		OnRefreshListener, Clicklistener,
 		android.support.v7.widget.SearchView.OnQueryTextListener {
@@ -63,6 +68,9 @@ public class TimelineFragment extends Fragment implements Observer,
 		// Required empty public constructor
 	}
 
+	/**
+	 * Wanneer het fragment voor het eerst word aangeroepen.
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -107,6 +115,9 @@ public class TimelineFragment extends Fragment implements Observer,
 		return false;
 	}
 
+	/** 
+	 * Hier word de floating action button aangemaakt waarop je moet klikken om een nieuwe tweet de wereld in te sturen. 
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -141,6 +152,11 @@ public class TimelineFragment extends Fragment implements Observer,
 		return rootView;
 	}
 
+	/**
+	 * Dit is het menu waar je vervolgens in terecht komt. 
+	 * @param activity
+	 * @param rootView
+	 */
 	public void messageDialog(final Context activity, final View rootView) {
 
 		final Dialog myDialog = new Dialog(activity);
@@ -149,7 +165,7 @@ public class TimelineFragment extends Fragment implements Observer,
 		myDialog.setCancelable(true);
 		myDialog.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
+		CircleImageView circleImageView = (CircleImageView) myDialog.findViewById(R.id.followerPf);
 		Button postTweetbutton = (Button) myDialog.findViewById(R.id.button1);
 		postTweetbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
