@@ -154,34 +154,20 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/circular_progress_default_subtitle" />
 
-                <ImageButton
-                    android:id="@+id/imageButton3"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:adjustViewBounds="true"
-                    android:background="@null"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:maxHeight="24dp"
-                    android:maxWidth="24dp"
-                    android:scaleType="centerInside"
-                    android:scaleX="0.54"
-                    android:scaleY="0.54"
-                    android:src="@drawable/reply" />
-
-                <TextView
-                    android:id="@+id/singleTweetReplyCount"
+                <Button
+                    android:id="@+id/replyTweet"
+                    style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="0.5"
-                    android:gravity="center_vertical"
-                    android:text="48"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/circular_progress_default_subtitle" />
+                    android:layout_height="wrap_content"
+                    android:text="Favourite" />
+
+                <Button
+                    android:id="@+id/retweetButton"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Retweet" />
+
             </LinearLayout>
 
             <ImageView

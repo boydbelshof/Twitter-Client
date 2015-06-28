@@ -8,6 +8,7 @@ import java.util.List;
 import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.model.Model;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -23,33 +24,26 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.http.HttpResponse;
 
-public class Tweet_Post_Reply extends AsyncTask<String, Void, String> {
+
+public class Tweet_Post_Favourite extends AsyncTask<Integer, Void, Void> {
 	private CommonsHttpOAuthConsumer consumer;
 	private HttpResponse response;
 	private Model model;
 	private TwitterClient app;
 
-	public Tweet_Post_Reply(TwitterClient app) {
+	public Tweet_Post_Favourite(TwitterClient app) {
 		this.app = app;
 	}
 
-	protected String doInBackground(String... params) {
+	protected Void doInBackground(Integer... params) {
 		app = (TwitterClient) app.getApplicationContext();
 		model = app.getModel();
 		consumer = app.getCommonsHttpOAuthConsumer();
 
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(
-				"https://api.twitter.com/1.1/statuses/update.json");
-
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("status", params[0]));
-		try {
-			post.setEntity(new UrlEncodedFormEntity(parameters, HTTP.UTF_8));
-		} catch (UnsupportedEncodingException e1) {
-		}
+				"https://api.twitter.com/1.1/favorites/create.json?id=" + params[0]);
 
 		try {
 			consumer.sign(post);
@@ -66,35 +60,19 @@ public class Tweet_Post_Reply extends AsyncTask<String, Void, String> {
 		} catch (ClientProtocolException e) {
 			int statusCode = ((org.apache.http.HttpResponse) response)
 					.getStatusLine().getStatusCode();
-			return "" + statusCode;
 		} catch (IOException e) {
-			return "Internet";
 		}
-
 		return null;
-		
-		
 	}
+
 	@Override
-	protected void onPostExecute(String result) {
-		if (result != null) {
-			if (result.equals("403")) {
-				Toast.makeText(app.getBaseContext(),
-						"You can't post 2 of the same tweets",
-						Toast.LENGTH_LONG).show();
-			} else if (result.equals("Internet")) {
-				Toast.makeText(app.getApplicationContext(),
-						"Je hebt geen internet", Toast.LENGTH_SHORT).show();
-			} else {
-				model.update();
-				Toast.makeText(app.getBaseContext(), "Tweet has been sended",
-						Toast.LENGTH_SHORT).show();
-			}
-		}
-
-
+	protected void onPostExecute(Void result) {
 		model.update();
+		Toast.makeText(app.getApplicationContext(), "Gefavourite!",
+				Toast.LENGTH_SHORT).show();
 		super.onPostExecute(result);
 	}
+
+
 
 }

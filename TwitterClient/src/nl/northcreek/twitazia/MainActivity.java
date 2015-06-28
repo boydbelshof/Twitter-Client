@@ -1,10 +1,9 @@
 package nl.northcreek.twitazia;
 
 import nl.northcreek.twitazia.drawer.FragmentDrawer;
-import nl.northcreek.twitazia.fragment.CopyOfTimelineFragment;
+import nl.northcreek.twitazia.fragment.ProfileFragment;
 import nl.northcreek.twitazia.fragment.FollowersFragment;
 import nl.northcreek.twitazia.fragment.MentionsFragment;
-import nl.northcreek.twitazia.fragment.ProfileFragment;
 import nl.northcreek.twitazia.fragment.SettingsFragment;
 import nl.northcreek.twitazia.fragment.TimelineFragment;
 import nl.northcreek.twitazia.model.Model;
@@ -105,7 +104,7 @@ public class MainActivity extends ActionBarActivity implements
 			fragPos = 0;
 			break;
 		case 1:
-			myFragment = new CopyOfTimelineFragment();
+			myFragment = new ProfileFragment();
 			title = getString(R.string.title_profile);
 			fragPos = 1;
 			break;

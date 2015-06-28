@@ -178,11 +178,8 @@ public class TimelineFragment extends Fragment implements Observer,
 		myDialog.setCancelable(true);
 		myDialog.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		Button postTweetbutton = (Button) myDialog.findViewById(R.id.button1);
+		Button postTweetbutton = (Button) myDialog.findViewById(R.id.replyTweet);
 		final EditText edtInput = (EditText)	myDialog.findViewById(R.id.edtInput);
-
-		CircleImageView circleImageView = (CircleImageView) myDialog
-				.findViewById(R.id.followerPf);
 
 		postTweetbutton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

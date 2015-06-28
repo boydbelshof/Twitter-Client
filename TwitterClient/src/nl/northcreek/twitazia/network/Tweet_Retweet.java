@@ -11,8 +11,8 @@ import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
-import oauth.signpost.http.HttpResponse;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -64,15 +64,20 @@ public class Tweet_Retweet extends AsyncTask<String, Void, Void> {
 
 		try {
 			response = (HttpResponse) client.execute(post);
-			//Toast.makeText(app.getApplicationContext(), "Geretweet!", Toast.LENGTH_SHORT);
+			Toast.makeText(app.getApplicationContext(), "Geretweet!", Toast.LENGTH_SHORT).show();
 		} catch (ClientProtocolException e) {
 		int statusCode = ((org.apache.http.HttpResponse) response)
 				.getStatusLine().getStatusCode();
 		} catch (IOException e) {
 		}
 
-		model.update();
 		return null;
 
+	}
+
+	@Override
+	protected void onPostExecute(Void result) {
+		model.update();
+		super.onPostExecute(result);
 	}
 }

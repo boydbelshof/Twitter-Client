@@ -8,6 +8,8 @@ import nl.northcreek.twitazia.CircleImageView;
 import nl.northcreek.twitazia.R;
 import nl.northcreek.twitazia.TwitterClient;
 import nl.northcreek.twitazia.model.Tweet;
+import nl.northcreek.twitazia.network.Tweet_Post_Favourite;
+import nl.northcreek.twitazia.network.Tweet_Retweet;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,11 +22,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * De class van de TweetAdapter, hier word de adapter gevuld met de tweets.
+ * 
  * @author boyd
  */
 public class TweetAdapter extends
@@ -52,15 +56,17 @@ public class TweetAdapter extends
 	 * Hier word de ViewHolder ingevuld met tweets.
 	 */
 	public void onBindViewHolder(TweetAdapter.MyViewHolder holder, int position) {
-		Tweet singleTweetItem = tweets.get(position);
+		final Tweet singleTweetItem = tweets.get(position);
 		holder.tweetUserProfilePicture.setImageResource(R.drawable.applogo);
 		holder.tweetUserProfileName
 				.setText(singleTweetItem.getUser().getName());
-		holder.tweetUserScreenName.setText("@" + singleTweetItem.getUser()
-				.getScreen_name());
+		holder.tweetUserScreenName.setText("@"
+				+ singleTweetItem.getUser().getScreen_name());
 		holder.tweetText.setText(singleTweetItem.getText());
-		holder.singleTweetFavoritesCount.setText("" + singleTweetItem.getFavorite_count());
-		holder.singleTweetRetweetCount.setText("" + singleTweetItem.getRetweet_count());
+		holder.singleTweetFavoritesCount.setText(""
+				+ singleTweetItem.getFavorite_count());
+		holder.singleTweetRetweetCount.setText(""
+				+ singleTweetItem.getRetweet_count());
 		// Hier roept hij de DownloadImageTask aan en haalt hij de foto op
 		new DownloadImageTask(holder.tweetUserProfilePicture)
 				.execute(singleTweetItem.getUser().getProfile_image_url());
@@ -69,13 +75,32 @@ public class TweetAdapter extends
 			if (singleTweetItem.getEntities().getMedia().get(0).getImage() == null) {
 				holder.imageView.setVisibility(View.GONE);
 			} else {
-			holder.imageView.setVisibility(View.VISIBLE);
-			holder.imageView.setImageBitmap(singleTweetItem.getEntities().getMedia().get(0).getImage());
+				holder.imageView.setVisibility(View.VISIBLE);
+				holder.imageView.setImageBitmap(singleTweetItem.getEntities()
+						.getMedia().get(0).getImage());
+			}
+		} else {
+			holder.imageView.setVisibility(View.GONE);
 		}
-	} else {
-		holder.imageView.setVisibility(View.GONE);
-		}
-
+		
+		holder.retweetButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Tweet_Retweet retweetTask = new Tweet_Retweet(app);
+				retweetTask.execute(singleTweetItem.getId_str());
+				
+			}
+		});
+		holder.replyButton.setOnClickListener( new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Tweet_Post_Favourite replyTweetTask = new Tweet_Post_Favourite(app);
+				replyTweetTask.execute(singleTweetItem.getId());
+				
+			}
+		});
 	}
 
 	public void setListener(Clicklistener clicklistener) {
@@ -103,13 +128,16 @@ public class TweetAdapter extends
 	class MyViewHolder extends RecyclerView.ViewHolder implements
 			OnClickListener {
 		TextView tweetUserScreenName, tweetUserProfileName, tweetText,
-				tweetTime, singleTweetRetweetCount, singleTweetFavoritesCount, singleTweetReplyCount;
+				tweetTime, singleTweetRetweetCount, singleTweetFavoritesCount,
+				singleTweetReplyCount;
 		CircleImageView tweetUserProfilePicture;
 		ImageView imageView;
+		Button replyButton, retweetButton;
 
 		public MyViewHolder(View itemView) {
 			super(itemView);
 			itemView.setOnClickListener(this);
+
 			tweetUserProfilePicture = (CircleImageView) itemView
 					.findViewById(R.id.tweetUserPF);
 			tweetUserScreenName = (TextView) itemView
@@ -117,9 +145,10 @@ public class TweetAdapter extends
 			tweetUserProfileName = (TextView) itemView
 					.findViewById(R.id.tweetUserProfileName);
 			tweetText = (TextView) itemView.findViewById(R.id.tweetText);
-			singleTweetRetweetCount = (TextView) itemView.findViewById(R.id.singleTweetRetweetCount);
-			singleTweetFavoritesCount = (TextView) itemView.findViewById(R.id.singleTweetFavoritesCount);
-			singleTweetReplyCount = (TextView) itemView.findViewById(R.id.singleTweetReplyCount);
+			singleTweetRetweetCount = (TextView) itemView
+					.findViewById(R.id.singleTweetRetweetCount);
+			singleTweetFavoritesCount = (TextView) itemView
+					.findViewById(R.id.singleTweetFavoritesCount);
 			imageView = (ImageView) itemView.findViewById(R.id.media);
 			tweetTime = (TextView) itemView.findViewById(R.id.tweetTime);
 			tweetText.setOnClickListener(new OnClickListener() {
@@ -128,6 +157,10 @@ public class TweetAdapter extends
 				public void onClick(View v) {
 				}
 			});
+
+			replyButton = (Button) itemView.findViewById(R.id.replyTweet);
+			retweetButton = (Button) itemView.findViewById(R.id.retweetButton);
+			
 		}
 
 		@Override

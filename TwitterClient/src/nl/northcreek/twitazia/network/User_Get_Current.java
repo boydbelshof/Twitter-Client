@@ -66,7 +66,7 @@ public class User_Get_Current extends AsyncTask<String, Void, String> {
 				JSONObject jsonObject = new JSONObject(results);
 				User user = new User(jsonObject);
 				model.addCurrentUser(user);
-				Log.d("USER ADDED",model.getCurrentUser().size() + "");
+				Log.d("", user.getStatuses_count() +"");
 				}
 			
 		} catch (OAuthMessageSignerException e) {

@@ -1,14 +1,12 @@
 package nl.northcreek.twitazia.model;
 
-import nl.northcreek.twitazia.network.AccessTokenRequest;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
 
 public class User {
-	private int id;
+	private int id, friends_count, followers_count, statuses_count;
 	private String id_str;
 	private String name;
 	private String screen_name;
@@ -18,6 +16,9 @@ public class User {
 	public User(JSONObject userObject) {
 		try {
 			id = userObject.getInt("id");
+			friends_count = userObject.optInt("friends_count");
+			statuses_count = userObject.optInt("statuses_count");
+			followers_count = userObject.optInt("followers_count");
 			id_str = userObject.getString("id_str");
 			name = userObject.getString("name");
 			screen_name = userObject.getString("screen_name");
@@ -66,6 +67,30 @@ public class User {
 
 	public void setProfile_image_url(String profile_image_url) {
 		this.profile_image_url = profile_image_url;
+	}
+
+	public int getFriends_count() {
+		return friends_count;
+	}
+
+	public void setFriends_count(int friends_count) {
+		this.friends_count = friends_count;
+	}
+
+	public int getFollowers_count() {
+		return followers_count;
+	}
+
+	public void setFollowers_count(int followers_count) {
+		this.followers_count = followers_count;
+	}
+
+	public int getStatuses_count() {
+		return statuses_count;
+	}
+
+	public void setStatuses_count(int statuses_count) {
+		this.statuses_count = statuses_count;
 	}
 
 }

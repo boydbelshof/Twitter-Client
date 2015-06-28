@@ -5,58 +5,71 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="nl.northcreek.twitazia.fragment.ProfileFragment" >
-     <nl.northcreek.twitazia.CircleImageView
-            android:id="@+id/tweetUserPF"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/mijzelf" />
 
-        <LinearLayout
-            android:id="@+id/LinLay"
-            android:layout_width="fill_parent"
-            android:layout_height="56dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/tweetUserPF"
-            android:orientation="vertical"
-            android:weightSum="2" >
+    <LinearLayout
+        android:id="@+id/LinLay"
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        android:weightSum="2" >
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtUserScreenName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/nav_header_username"
-                android:textColor="@android:color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/FrameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/androidlollipop" >
 
             <TextView
                 android:id="@+id/txtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_marginTop="60dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/nav_header_screenname"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtUserScreenName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="75dp"
+                android:text="TextView"
+                android:textColor="@color/white" />
+
+            <nl.northcreek.twitazia.CircleImageView
+                android:id="@+id/tweetUserPF"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/mijzelf" />
+        </FrameLayout>
 
         <LinearLayout
-            android:layout_width="260dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/LinLay"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical" >
+            android:orientation="horizontal"
+            android:weightSum="6" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:weightSum="3" >
 
                 <TextView
@@ -67,7 +80,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/nav_header_counttweetstext"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -79,7 +92,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/nav_header_countfollowingtext"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -91,51 +104,47 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:text="@string/nav_header_countfollowerstext"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="6" >
-
-                <TextView
-                    android:id="@+id/totalTweetsData"
-                    android:layout_width="86dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:text="@string/nav_header_counttweetsdata"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/totalFollowingData"
-                    android:layout_width="87dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:text="@string/nav_header_countfollowingdata"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/totalFollowersData"
-                    android:layout_width="86dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="2"
-                    android:gravity="start"
-                    android:text="@string/nav_header_countfollowersdata"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3" >
+
+            <TextView
+                android:id="@+id/countTweets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/countFollowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/countFollowers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
