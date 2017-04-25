@@ -35,7 +35,7 @@
         </activity>
         <activity android:name=".AccountInfo" />
         <activity android:name=".TweetFragment" />
-        <activity android:name=".WebViewActivity" />
+        <activity android:name=".WebViewActivity" /> 
     </application>
 
 </manifest>
