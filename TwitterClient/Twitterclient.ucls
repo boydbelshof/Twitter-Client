@@ -36,7 +36,7 @@
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
-  </class>  
+  </class>   
   <class id="5" language="java" name="nl.northcreek.twitazia.model.Media" project="TwitterClient" 
     file="/TwitterClient/src/nl/northcreek/twitazia/model/Media.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="223" width="134" x="400" y="1150"/>    
